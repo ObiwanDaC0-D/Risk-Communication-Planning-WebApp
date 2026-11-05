@@ -1,0 +1,377 @@
+You are a senior full-stack product engineer, UX designer, instructional designer, and quality engineer. Build a production-oriented, standalone web application named:
+
+RISK COMMUNICATION PLANNER
+
+Do not produce a concept, wireframe, static mockup, or placeholder-only scaffold. Build a functional application that users can run locally and extend for an enterprise deployment.
+
+## 1. Source Material and Authority
+
+Use the supplied files as the source of truth:
+
+1. Risk Communication Planning Framework
+2. Risk Communication Planning Workbook
+3. Risk Communication Planner Guided Learning Experience Design Requirements
+4. Risk Communication Framework-to-Workbook Process Map
+5. Risk Communication Planner Database Schema
+6. Risk Communication Planner Scaffold Generator
+7. README and file manifest
+
+Resolve conflicts using this hierarchy:
+1. Framework and Workbook for authoritative planning content, task logic, prompts, work products, and required fields.
+2. Guided Learning Experience Design Requirements for UX, instructional design, review, readiness, and acceptance criteria.
+3. Process Map for workflow sequence, dependencies, and phase-to-task relationships.
+4. Database Schema and Scaffold Generator for data model and technical architecture.
+5. README for implementation constraints and recommended sequencing.
+
+Do not invent planning doctrine, authorities, approvals, classification markings, or organization-specific policy. Where an authority, reviewer, approval path, handling instruction, or release process is needed, provide a configurable field and clearly label it as organization-defined.
+
+## 2. Product Goal
+
+Create a standalone, guided learning-and-planning environment for risk communication planners, cross-functional contributors, reviewers, and planning leads.
+
+The product must:
+- Help users develop, revise, review, and assemble a complete risk communication plan.
+- Treat communication and engagement as continuous, two-way elements of risk management, not as a final release of information.
+- Make each task’s purpose, expected work product, dependencies, and downstream effects visible.
+- Preserve traceability among evidence, assumptions, participants, dates, analyses, ratings, decisions, actions, metrics, reviews, and revisions.
+- Support human planning-lead and required-office review.
+- Never imply that an automated score, checklist, workflow status, or generated output independently approves, validates, releases, or authorizes a decision.
+
+## 3. Technology and Delivery Requirements
+
+Build a full, runnable application with:
+
+- Front end: React, TypeScript, Vite.
+- API: REST/JSON service layer.
+- Persistence: PostgreSQL, using and extending the supplied normalized schema as needed.
+- Local deployment: Docker Compose for the application and PostgreSQL database.
+- Configuration: `.env.example`; do not hard-code environment secrets, organizational identity rules, or production credentials.
+- Identity architecture: implement a clean OIDC/SSO integration boundary. Do not treat client-side navigation or a mock user as authorization. A clearly labeled local-development identity mode is acceptable only for development.
+- API validation: shared server/client contracts or schemas so client and server validation cannot drift.
+- Testing: unit tests for core calculations and validation, API/integration tests for primary workflows, and end-to-end tests for the main plan lifecycle.
+- Documentation: concise README with setup, local run, test, build, database migration/seed, and architecture instructions.
+
+Use organization-approved, pinned dependency versions rather than floating “latest” dependencies.
+
+## 4. Product Architecture
+
+Implement these bounded contexts/modules:
+
+1. Plan and access
+   - Organizations, users, plans, plan members, plan owner, planning horizon, status, and versions.
+
+2. Workflow
+   - Seven phases, fourteen tasks, task narratives, task status, readiness checks, dependencies, and task completion criteria.
+
+3. Evidence and traceability
+   - Evidence register, source type/reference, collection date, summary, assumptions, handling note, validation/review state, and links to one or more tasks, assessments, ratings, or decisions.
+
+4. Governance
+   - Planning charter, governance/RACI assignments, accountable owner, responsible, consulted, informed, review authorities, and validation responsibilities.
+
+5. Planning analysis
+   - Baseline, gap analysis, future-without-action statement, planning logic, objectives, constraints, and measure implications.
+
+6. Stakeholders and effort
+   - Stakeholder register, segments, access accommodations, priorities, contact-management actions, effort assessment, factors, ratings, rationale, and sensitivity checks.
+
+7. Measures, alternatives, and decision
+   - Measure library, baseline versus discretionary measures, alternative packages, viability screening, evaluation criteria, narrative tradeoffs, selection decision, residual risk, and decision authority.
+
+8. Operationalization
+   - Scope, budget lines, implementation actions, key messages, performance measures, data collection, and reporting cadence.
+
+9. Learning and revision
+   - Implementation reviews, annual reviews, after-action reviews, corrective actions, revision triggers, closure status, version history, revision rationale, and audit events.
+
+Use first-class relational entities for repeated data such as stakeholders, measures, alternatives, actions, messages, metrics, evidence, and review findings. Do not store the entire plan as one unstructured narrative document.
+
+## 5. Primary Navigation and Screens
+
+Create these application areas:
+
+1. Plan Dashboard
+   - Plan title, owner, planning horizon, lifecycle status, recent changes, progress by phase, unresolved dependencies, open review findings, and upcoming review dates.
+   - Progress must reflect usable work products and quality checks, not only field-completion percentages.
+
+2. Guided Planning Workflow
+   - Seven-phase navigation with all fourteen tasks.
+   - Show phase, task title, task outcome, readiness state, affected downstream tasks, and task-level review status.
+   - Allow users to move backward when evidence, stakeholder input, constraints, decisions, or lessons learned change the planning basis.
+
+3. Evidence and Assumptions Register
+   - Create, edit, filter, link, and trace evidence and assumptions.
+   - Show evidence provenance, date, source/reference, uncertainty, validation status, and linked tasks.
+
+4. Cross-Cutting Planning Views
+   - Stakeholder register.
+   - Measure library.
+   - Alternative comparison.
+   - Budget and scope view.
+   - Implementation action matrix.
+   - Key-message library.
+   - Performance dashboard.
+   - Review/AAR tracker.
+   - Revision and audit history.
+
+5. Review and Plan Assembly
+   - Readiness gates.
+   - Human reviewer feedback and corrective actions.
+   - Reviewer routing or assignment interface.
+   - Final plan assembly preview.
+   - Versioned output package.
+   - Controlled export capability only after a human-controlled readiness/review step.
+
+## 6. Seven-Phase Workflow and Fourteen Tasks
+
+Implement this exact workflow:
+
+### Phase 1 — Frame
+Task 1. Establish the Planning Charter and Governance
+- Work product: planning charter and governance/RACI matrix.
+- Capture: decision to support; purpose and need; planning area and scope; planning horizon; authorities, policy, and agreements; decision criteria; planning lead/owner; decision authority; governance functions and RACI assignments.
+- Include guidance that identifies required technical, legal/policy, public-engagement, budget, and release coordination as organization-defined responsibilities.
+
+### Phase 2 — Diagnose
+Task 2. Baseline Current Conditions and the Future Without Action
+- Work product: baseline narrative, outreach inventory, gap map, and future-without-action statement.
+- Capture existing engagements, products, events, channels, training, exercises, coordination mechanisms, audiences, owners, frequency, cost/effort, observed reach/results, access barriers, and data gaps.
+- Require facts, assumptions, and uncertainty to be distinguishable.
+
+Task 3. Convert Findings into Planning Logic
+- Work product: planning-logic table.
+- Capture problem, opportunity, objective, constraint, and implication for measures.
+- Provide an objective builder using: effect, subject, location, and timing/duration.
+- Classify constraints as authority/jurisdiction, information handling, resource, technical uncertainty, or dependency.
+- Link planning logic to Tasks 4, 6, 7, and 13. If an entry changes, prompt the user to review affected downstream work.
+
+### Phase 3 — Understand
+Task 4. Identify and Segment Stakeholders
+- Work product: stakeholder register, priority audience list, and contact-management plan.
+- Capture stakeholder/audience; concern; action needed; current relationship; communication need; preferred channel; access accommodation; owner; priority; and contact-management action.
+- Explicitly support priority segments with distinct access barriers, authority, readiness, risk, or communication preferences.
+
+Task 5. Calibrate the Required Level of Effort
+- Work product: documented level-of-effort determination.
+- Support values: maintain, improve, substantially expand, and surge.
+- Capture Low/Medium/High factor ratings for risk, preparedness, awareness, capacity, environment, and access complexity.
+- Capture evidence, assumptions, participants, date, weighting method, rationale, and sensitivity-check result.
+- If scoring is used, show scoring definitions and thresholds. Scores may inform judgment but must never make or approve the decision.
+
+### Phase 4 — Design
+Task 6. Build a Library of Management Measures
+- Work product: measure library.
+- Each measure card must include:
+  - Verb-noun measure title.
+  - Baseline/mandatory or discretionary designation.
+  - Problem/objective addressed.
+  - Target audience or area.
+  - Key message/content.
+  - Delivery method and frequency.
+  - Accountable owner and supporting organizations.
+  - Prerequisites and dependencies.
+  - Cost assumptions: labor, travel, materials, contract support.
+  - Measure of performance.
+  - Measure of effectiveness.
+  - Risks and limitations.
+- Prevent baseline activities from being confused with discretionary gap-closing measures.
+
+Task 7. Formulate Meaningfully Different Alternatives
+- Work product: alternative packages.
+- Require all alternatives to include common baseline measures.
+- Require at least three meaningfully different alternative packages, unless a user records a documented exception.
+- Capture discretionary measures, target coverage/benefit, resource and schedule assumptions, dependencies, expected contribution, and residual risk.
+
+### Phase 5 — Decide
+Task 8. Screen Alternatives for Viability
+- Work product: screening record.
+- Screen each alternative for policy/constraint compliance, minimum-objective fit, resource ceiling, partner/dependency availability, schedule feasibility, and proportionality.
+- Record criterion, result, evidence/rationale, and reason for elimination.
+- Do not silently delete screened-out alternatives.
+
+Task 9. Evaluate Alternatives and Document the Selection
+- Work product: selection/decision record.
+- Support configurable evaluation criteria including acceptability, effectiveness, completeness, and efficiency.
+- Require each rating to cite evidence and/or assumptions.
+- Show both transparent scoring and a narrative tradeoff analysis covering benefits, limitations, cost, schedule, dependencies, coverage, and residual risk.
+- Capture selected alternative, recommendation, decision/approval authority, and selection rationale.
+- Make clear that composite scores do not make the decision by themselves.
+
+### Phase 6 — Operationalize
+Task 10. Define Scope and Resource the Selected Plan
+- Work product: scope of work and budget detail.
+- Capture included measures, target groups, owners, frequency, labor hours, unit cost, travel/materials, contract support, total cost, funding office, and period/fiscal-year view.
+- Maintain one controlled budget baseline with source, date, assumptions, exclusions, and confidence limits.
+- Provide transparent calculations and a visible budget rollup.
+
+Task 11. Build the Implementation Action Matrix
+- Work product: executable action matrix.
+- Capture measure, action, accountable owner, supporting units, due date/recurrence, status, dependencies, and notes.
+- Support action types such as planning, coordination, approval, preparation, delivery, documentation, and assessment.
+- Show overdue, blocked, and dependency-risk indicators without falsely implying operational approval.
+
+Task 12. Develop Audience-Specific Key Messages
+- Work product: key-message library.
+- Capture audience, need to know, needed action, channel/product, limitations/coordination needs, content owner, validation office, release/coordination path, and feedback mechanism.
+- Use plain-language and accessibility prompts.
+- Ensure messages are audience-specific rather than a generic narrative.
+
+Task 13. Define Performance Measures and Data Collection
+- Work product: performance-management plan.
+- For each selected measure, require at least one measure of performance and one measure of effectiveness.
+- Capture objective/measure, metric, baseline, target, data source/collection method, owner, cadence, priority/underserved-group reach, and reporting method.
+- Do not equate activity volume, views, attendance, or product distribution with understanding, readiness, or risk reduction.
+
+### Phase 7 — Learn and Refresh
+Task 14. Review, Learn, Revise, and Assemble the Plan
+- Work product: annual performance report, AAR tracker, revised action matrix, and assembled final plan.
+- Support recurring implementation reviews, annual review, after-action reviews, revision triggers, findings, corrective actions, owners, closure status, and closure dates.
+- When new evidence or conditions change the planning basis, identify which earlier tasks may require review.
+- Assemble the plan with an executive summary, requested/recorded decision, all work products, and appendices for evidence, stakeholder register, scoring/evaluation, alternatives, action matrix, message library, templates, and AAR records.
+
+## 7. Standard Guided Task Experience
+
+Use the same instructional pattern for every task:
+
+1. Orient
+   - Show phase, task title, why the task matters, defined work product, and downstream tasks or decisions affected.
+
+2. Learn
+   - Explain the planning concept in concise plain language.
+   - Include common errors, misconceptions, and important distinctions.
+
+3. See an Example
+   - Provide a short, contextual, hypothetical worked example.
+   - Clearly label it “Illustrative example — do not copy as a prescribed answer.”
+   - Make it collapsible and hidden by default.
+
+4. Build
+   - Use progressive disclosure.
+   - Move from context and evidence to analysis, action, and decision-ready output.
+   - Use structured fields, repeatable tables, relationships, and links instead of relying solely on free-text narratives.
+
+5. Reflect
+   - Present task-specific reflection cards.
+   - Include questions related to evidence, uncertainty, feasibility, access, coordination, dependencies, risks, and affected audiences.
+
+6. Review
+   - Display completion criteria, unresolved dependencies, readiness state, reviewer feedback, and revision rationale.
+   - Allow revision before human review routing.
+
+For Task 3 specifically, include:
+- A concise explanation distinguishing a problem, opportunity, objective, constraint, and implication for measures.
+- Guided prompts for condition, cause, affected group/system, opportunity, measurable change, and constraint.
+- Improvement prompts when an objective lacks effect, subject, location, or timing/duration.
+- Reflection questions asking whether each entry is a fact, assumption, or data gap; whether a reviewer can see how the objective follows from the baseline; and whether constraints change feasible measures.
+- These prompts must be advisory and educational—not automated judgments or approval gates.
+
+## 8. Readiness, Review, Revision, and Dependencies
+
+Implement clear and accurate states:
+
+- Not started.
+- In progress.
+- Draft complete.
+- Ready for review.
+- Returned for revision.
+- Complete after recorded human review/validation, where applicable.
+
+Requirements:
+- Never use application state to claim independent approval, release authority, legal sufficiency, policy validation, or command decision.
+- Readiness checks must indicate missing information, unresolved dependencies, evidence gaps, or self-identified quality concerns.
+- Record reviewer feedback, corrective actions, revision rationale, changed fields/records, actor, and timestamp.
+- Keep a version history and audit trail of substantive changes.
+- When foundational entries change, create a non-blocking dependency review prompt for affected downstream tasks.
+
+Minimum dependency map:
+- Task 1 changes may affect all later tasks.
+- Tasks 2–3 affect Tasks 4–13.
+- Task 4 affects Tasks 5, 6, 7, 12, and 13.
+- Task 5 affects Tasks 6–10.
+- Tasks 6–7 affect Tasks 8–13.
+- Tasks 8–9 affect Tasks 10–14.
+- Tasks 10–13 affect Task 14.
+- Task 14 may reopen Tasks 1–13.
+
+## 9. UX, Accessibility, and Content Standards
+
+Design for professional staff use:
+- Clean, calm, desktop-first workspace that remains usable on tablets and smaller screens.
+- Plain language; avoid unnecessary jargon.
+- Accessible semantic HTML, keyboard navigation, visible focus states, sufficient contrast, descriptive labels, error summaries, and screen-reader-friendly tables/forms.
+- Responsive layouts with no lost functionality on smaller screens.
+- Autosave with clear saved/saving/error states.
+- Avoid overwhelming users with one long form.
+- Use evidence links, dependency badges, plain-language tooltips, status chips, and compact summaries.
+- Use fictional, clearly labeled example data only. Do not embed real sensitive, personal, or operational data.
+
+## 10. Security, Records, and Data-Integrity Requirements
+
+Design and implement:
+- Server-side authorization enforcement at organization and plan-member scope.
+- No client-only access control.
+- Audit events for substantive create, update, delete, review, decision-record, and status-change actions.
+- Evidence provenance and validation/review state.
+- Configurable retention/export/handling placeholders; do not invent records schedules or marking requirements.
+- Input validation, API error handling, pagination/filtering for registers, and protection against common web application vulnerabilities.
+- Clear user-facing distinction between draft content, readiness for review, and human-reviewed/validated content.
+
+## 11. Exports and Outputs
+
+Implement controlled plan assembly and export functionality.
+
+Exports should support:
+- Decision-ready risk communication plan.
+- Appendix package and registers.
+- Action matrix and performance-management plan.
+- Alternative evaluation and selection record.
+- Review and revision history.
+
+Requirements:
+- Generate outputs from controlled templates.
+- Preserve traceability from exported content back to application records.
+- Show a pre-export readiness summary.
+- Do not label the generated output as approved, released, validated, or final unless a human user has recorded that status through the configured review process.
+- Provide PDF and DOCX export if practical; otherwise deliver a well-structured HTML/print view and document the remaining export work.
+
+## 12. Acceptance Criteria
+
+The application is acceptable only if it demonstrates all of the following:
+
+1. A user can create a plan and work through all seven phases and fourteen tasks.
+2. Every task has the six-part guided experience: Orient, Learn, Example, Build, Reflect, Review.
+3. Every task has structured fields and task-specific tables derived from the Workbook.
+4. Users can create, edit, link, and trace evidence and assumptions.
+5. Users can create stakeholders, measures, alternatives, actions, messages, performance measures, reviews, and corrective actions as first-class records.
+6. Users can distinguish baseline/mandatory measures from discretionary measures.
+7. Users can screen alternatives, compare viable alternatives, document narrative tradeoffs, and record a human decision authority.
+8. Scores, validations, and readiness checks are transparent and advisory; none automatically approves a decision.
+9. A material upstream change creates downstream-review prompts.
+10. Reviewers can record feedback, corrective actions, revision rationale, and version history.
+11. Task 14 can reopen earlier tasks based on a review finding or revision trigger.
+12. The plan assembly view includes the complete final-plan checklist and appendices.
+13. The UI is accessible, responsive, and free of obvious placeholder-only functionality.
+14. The code builds successfully, tests pass, and the local deployment instructions work.
+
+## 13. Required Final Deliverables
+
+Produce:
+1. Complete application source code.
+2. Database migrations/schema and seed data using fictional examples.
+3. Docker Compose local deployment.
+4. `.env.example`.
+5. API contract/documentation.
+6. Test suite and test instructions.
+7. README with architecture, setup, run, build, test, migration, and troubleshooting steps.
+8. A concise implementation summary identifying:
+   - What is complete.
+   - What assumptions were made.
+   - What remains configuration-dependent for an enterprise deployment, especially OIDC/SSO, organization-specific roles, records rules, templates, reviewer routing, and export approval controls.
+
+Work iteratively:
+1. Inspect the supplied source files.
+2. Produce a concise implementation plan.
+3. Build the working application.
+4. Test it.
+5. Fix defects found during testing.
+6. Provide the final file tree, startup commands, and implementation summary.
