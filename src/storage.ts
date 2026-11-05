@@ -11,7 +11,7 @@ export function validatePlan(value:unknown):Plan{
  for(const e of p.entries){if(!obj(e)||!str(e.id)||!str(e.kind)||!str(e.title)||typeof e.task!=='number'||!Number.isInteger(e.task)||e.task<0||e.task>14||!str(e.updated)||!obj(e.data)||!Object.values(e.data).every(str))throw Error('Invalid work product in backup')}
  for(const r of p.reviews){if(!obj(r)||!str(r.id)||typeof r.task!=='number'||!Number.isInteger(r.task)||r.task<1||r.task>14||!str(r.reviewer)||!str(r.finding)||!str(r.outcome)||!str(r.date))throw Error('Invalid review in backup')}
  for(const h of p.history){if(!obj(h)||!str(h.date)||!str(h.description))throw Error('Invalid history in backup')}
- if(!Object.values(p.notes).every(str)||!Object.values(p.statuses).every(str))throw Error('Invalid task notes or statuses');
+ if(!Object.values(p.notes as Record<string,unknown>).every(str)||!Object.values(p.statuses as Record<string,unknown>).every(str))throw Error('Invalid task notes or statuses');
  return p as unknown as Plan;
 }
 export function parsePlanBackup(raw:string):Plan{return validatePlan(JSON.parse(raw))}
