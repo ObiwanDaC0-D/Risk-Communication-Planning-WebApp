@@ -9,7 +9,7 @@ if(!dev)throw new Error('OIDC boundary not configured. Set IDENTITY_MODE=develop
 const actor=process.env.DEV_USER_ID||'00000000-0000-0000-0000-000000000001';
 const org=process.env.DEV_ORGANIZATION_ID||'00000000-0000-0000-0000-000000000002';
 const asyncRoute=(fn:any)=>(req:any,res:any,next:any)=>Promise.resolve(fn(req,res)).catch(next);
-async function member(plan:string){const r=await db.query('select p.* from plans p join plan_members m on m.plan_id=p.id where p.id=$1 and p.organization_id=$2 and m.user_id=$3',[plan,org,actor]);if(!r.rowCount){const e:any=new Error('Plan not found or access denied');e.status=404;}return r.rows[0];}
+async function member(plan:string){const r=await db.query('select p.* from plans p join plan_members m on m.plan_id=p.id where p.id=$1 and p.organization_id=$2 and m.user_id=$3',[plan,org,actor]);if(!r.rowCount){const e:any=new Error('Plan not found or access denied');e.status=404;throw e;}return r.rows[0];}
 async function audit(plan:string|null,type:string,id:string|null,action:string,before:any,after:any){await db.query('insert into audit_events(plan_id,actor_id,entity_type,entity_id,action,before_state,after_state) values($1,$2,$3,$4,$5,$6,$7)',[plan,actor,type,id,action,before?JSON.stringify(before):null,after?JSON.stringify(after):null]);}
 async function impact(plan:string,task:number,reason:string){for(const n of dependencyMap[task]||[])await db.query('insert into dependency_prompts(plan_id,source_task,affected_task,reason) values($1,$2,$3,$4)',[plan,task,n,reason]);}
 app.get('/api/health',asyncRoute(async(_req:any,res:any)=>{await db.query('select 1');res.json({ok:true,identity_mode:'local-development-only'});}));
