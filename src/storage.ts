@@ -12,7 +12,7 @@ export function validatePlan(value:unknown):Plan{
  for(const r of p.reviews){if(!obj(r)||!str(r.id)||typeof r.task!=='number'||!Number.isInteger(r.task)||r.task<1||r.task>14||!str(r.reviewer)||!str(r.finding)||!str(r.outcome)||!str(r.date))throw Error('Invalid review in backup')}
  for(const h of p.history){if(!obj(h)||!str(h.date)||!str(h.description))throw Error('Invalid history in backup')}
  if(!Object.values(p.notes).every(str)||!Object.values(p.statuses).every(str))throw Error('Invalid task notes or statuses');
- return p as Plan;
+ return p as unknown as Plan;
 }
 export function parsePlanBackup(raw:string):Plan{return validatePlan(JSON.parse(raw))}
 export function readPlans():Plan[]{try{const raw=localStorage.getItem(KEY);if(!raw)return [];const data=JSON.parse(raw);return Array.isArray(data)?data.map(validatePlan):[]}catch{return []}}
