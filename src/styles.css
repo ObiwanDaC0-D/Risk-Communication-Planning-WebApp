@@ -17,3 +17,14 @@ aside .phase-toggle{display:flex;justify-content:space-between;align-items:cente
 .task-pager span{font-size:12px;color:#5c6e7d;font-weight:700}
 .task-pager button:disabled{opacity:.4;cursor:not-allowed}
 @media(max-width:550px){.task-pager{gap:5px}.task-pager button{font-size:12px;padding:8px}.task-pager span{font-size:11px}}
+
+/* v2.2 navigation refinements */
+.phase-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 10px!important;background:transparent!important;border:0!important;color:#afc7d9!important;text-align:left;font-size:12px;font-weight:700;letter-spacing:.03em}
+.phase-toggle:hover{background:#234259!important}
+.phase-toggle span:last-child{font-size:11px;color:#9ac6c4}
+.navtitle{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.navtitle span{font-size:10px;letter-spacing:0;text-transform:none;color:#9bd4c9}
+.navprogress{width:100%;height:7px;display:block;margin:7px 0 15px;accent-color:#7cc9b5}
+nav section{border-bottom:1px solid #ffffff15;padding:4px 0}
+nav button[aria-current="step"] .num{background:#a4e4d1;color:#153b3b}
+@media(max-width:900px){aside{max-height:none;position:static}aside nav section button:not(.phase-toggle){padding:10px}header h1{overflow-wrap:anywhere}}
