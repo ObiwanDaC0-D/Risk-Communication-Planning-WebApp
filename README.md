@@ -1,57 +1,48 @@
-# Risk Communication Planner — Working Development Release 1.0
+# Risk Communication Planner 2.0
 
-A React + TypeScript + Vite planning workspace with REST/JSON, PostgreSQL persistence, structured records, fourteen guided tasks, dependency prompts, human review records and audit history.
+A standalone, browser-local guided risk communication planning application. **The source documents are reference materials**, not mandatory field-by-field application specifications.
 
-> **Security and deployment status:** Development-only. Identity is an explicitly local, single-user development mode. The OIDC/SSO integration boundary is deliberately fail-closed: production identity and authorization are NOT implemented. Do not deploy to an organizational network or enter sensitive or operational data. Human review records in this development environment are not organizational approvals or release authorizations.
+## Deploy with GitHub Pages
 
-## Run locally
+1. In GitHub, open **Settings → Pages**.
+2. Under **Build and deployment**, select **GitHub Actions** as the source.
+3. Open **Actions → Deploy Risk Communication Planner to GitHub Pages** and run the workflow if it has not started.
+4. After successful deployment, open **https://obiwandac0-d.github.io/Risk-Communication-Planning-WebApp/**.
 
-1. Copy `.env.example` to `.env`.
-2. Install Docker Compose.
-3. Run `docker compose up --build`.
-4. Open http://localhost:5173.
-5. Create a fictional plan. Add structured records, work through guided tasks and record human review.
-6. API health endpoint: http://localhost:3001/api/health.
+The workflow runs tests, builds the Vite application with the repository base path and deploys the `dist` directory. No Docker, PostgreSQL, server, credentials or environment file is needed for GitHub Pages.
 
-The database is initialized from `database/001_init.sql` on first startup. To reset **development data only**, run `docker compose down -v` and restart. Schema evolution requires a real migration runner before enterprise use.
+## Local development
 
-## Local development without Docker
+```bash
+npm install
+npm test
+npm run dev
+npm run build
+```
 
-Run PostgreSQL 16 and apply `database/001_init.sql`. Set `DATABASE_URL` and `IDENTITY_MODE=development`. Run `npm install`, `npm run server` in one terminal and `npm run dev` in another. Build with `npm run build`; run contract tests with `npm test`.
+Open the Vite URL shown in the terminal.
 
-## Architecture
+## Functional scope
 
-- `src/main.tsx`: guided workspace and structured task editor.
-- `shared/contracts.ts`: shared Zod contracts, task sequence, field specifications, dependency map.
-- `server/index.ts`: REST API, scoped plan membership checks, audit writes, review routes.
-- `database/001_init.sql`: PostgreSQL relational records, tasks, links, reviews, audit and dependency prompts.
-- `docker-compose.yml`: database, API and web services.
+- Seven phases, fourteen guided planning tasks.
+- Six-step guided experience per task.
+- Structured repeatable records for planning products, stakeholders, measures, alternatives, budgets, actions, messages, metrics and reviews.
+- Evidence and assumptions register.
+- Browser-local autosave, editing and search.
+- Named human review log and revision history.
+- Editable JSON backup/import and printable HTML export.
+- Desktop-first responsive interface.
 
-## API
+## Data safety and limits
 
-- `GET /api/health`
-- `GET /api/plans`; `POST /api/plans`
-- `GET /api/plans/:id`
-- `PUT /api/plans/:id/tasks/:task`
-- `GET /api/plans/:id/records?kind=evidence&limit=50`
-- `POST /api/plans/:id/records/:kind`; `PUT /api/plans/:id/records/:record`
-- `POST /api/plans/:id/links`
-- `POST /api/plans/:id/reviews`
-- `POST /api/plans/:id/prompts/:prompt/resolve`
-- `GET /api/plans/:id/export` (review-gated JSON package)
+All drafts live in **localStorage** within the current browser profile. They are not encrypted, centrally backed up, shared, authenticated or automatically synchronized across devices. Clearing site data can permanently erase plans. Export JSON backups regularly. Do not enter sensitive, controlled, personally identifiable or operational data unless an organization-approved deployment and handling process exists.
 
-The plan and record contracts are in `shared/contracts.ts`. Errors return JSON. Plan membership is checked server-side. Development identity is sourced only from server environment, never a browser-selected user.
+The application does not perform actual authority validation, access control, policy review, decision approval or organizational release. Recorded reviewer names are user-entered and unverified. The HTML output is a **working document**, not an approved plan.
 
-## Implemented
+## Future enhancements
 
-Plan creation, 14 persisted tasks in seven phases, six-part guided task experience, structured repeatable work-product entries, evidence records, editable records, plan-scoped link endpoint, advisory downstream dependency prompts, task status, human-review record, audit history, and controlled JSON package gate.
+Dedicated planning dashboards, stronger alternative comparison, budget formulas, task-specific instructional guidance, automated dependency reminders, accessible validation summaries, PDF/DOCX exports and optional organization-approved cloud synchronization.
 
-## Not yet complete
+## Source documents
 
-This is **not** the fully accepted enterprise application. Required follow-on work includes: OIDC verification/JWKS and organization-defined role permissions; first-class specialized tables for each record kind rather than generic typed JSON records; full Framework/Workbook field-by-field reconciliation; evidence link UI and richer traceability; alternatives baseline enforcement, screening and weighted evaluation; budget rollups and metric validation; task-specific readiness checks; robust transactionally consistent audit/dependency writes; human reviewer routing and release controls; PDF/DOCX templates; pagination across all registers; API integration and browser E2E tests; accessibility/security testing; pinned dependency lockfile and approved supply-chain review.
-
-The supplied Framework, Workbook, requirements, schema and generator are retained unchanged at repository root. Their content and organization-specific authority requirements must be reconciled before use.
-
-## Troubleshooting
-
-If the API cannot reach PostgreSQL, inspect `docker compose logs db api`. If `/api/health` fails, confirm `.env` exists and database initialization completed. If port 5173 or 3001 is occupied, stop the conflicting process. No actual organization data should be used in development mode.
+Original Framework, Workbook, Guided Learning Requirements, database schema and scaffold generator are retained in the repository for reference.
