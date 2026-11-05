@@ -4,7 +4,7 @@ import {phases,tasks} from '../shared/contracts';
 import {guides} from './guide';
 import {qualityChecks,phaseDescriptions} from './referenceExtras';
 import './styles.css';
-function taskFromHash(){const match=window.location.hash.match(/^#task-(\\d+)$/);const n=match?Number(match[1]):null;return n!==null&&n>=1&&n<=14?n:null}
+function taskFromHash(){const match=window.location.hash.match(/^#task-(\d+)$/);const n=match?Number(match[1]):null;return n!==null&&n>=1&&n<=14?n:null}
 function App(){
  const [selected,setSelected]=useState<number|null>(taskFromHash);
  const [query,setQuery]=useState('');
