@@ -60,3 +60,21 @@ body{background:#f8fafb}
  .caution{break-inside:avoid}
  .footer{margin-top:30px}
 }
+
+/* Reference guide vNext: useful context without additional form controls */
+.phase-description{font-size:12px;line-height:1.55;color:#7b8e9a;margin:10px 0 0;max-width:27ch}
+.section-kicker{color:#328a87;font-size:10px;font-weight:800;letter-spacing:.13em;margin-bottom:9px}
+.section-description{color:#6c8090;font-size:13px;line-height:1.65;margin:-6px 0 20px}
+.quality-section{margin-top:40px;border-top:1px solid var(--line);padding-top:34px}
+.quality-list{padding:0;margin:0;list-style:none;display:grid;gap:10px}
+.quality-list li{display:flex;gap:13px;align-items:flex-start;padding:12px 16px;background:#f0f6f5;border-radius:9px;color:#385d66;line-height:1.55;font-size:14px}
+.quality-list li span{flex:none;color:#27877f;font-weight:800}
+.related-section{margin-top:42px}
+.related-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.related-links button{display:grid;grid-template-columns:1fr auto;gap:6px 10px;text-align:left;padding:18px;border:1px solid #dfe9ed;background:white;border-radius:10px;color:#254657}
+.related-links button:hover{border-color:#80bdb4;background:#f4faf8}
+.related-links small{grid-column:1/-1;color:#368a84;font-size:10px;letter-spacing:.1em;font-weight:800}
+.related-links strong{font-size:13px;line-height:1.45;font-weight:650}
+.related-links span{color:#3d8985}
+@media(max-width:900px){.phase-description{max-width:none;margin:0 0 8px}.phase-meta{display:block}.phase-meta h3{margin:7px 0}.related-links{grid-template-columns:1fr}}
+@media print{.related-section{display:none}.quality-list li{background:white;border-bottom:1px solid #ddd}}
