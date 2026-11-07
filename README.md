@@ -1,3 +1,11 @@
+# Risk Communication Planning Guide
+
+Risk Communication Planning Guide is a structured, read-only planning reference for professionals organizing a risk communication effort. It walks through seven phases and fourteen tasks, presenting key decisions, planning questions, illustrative examples, and expected deliverables. Designed for quick consultation rather than data entry, it does not create or store plans and is not official agency policy.
+
+**At a glance:** A navigable reference guide for developing risk communication plans through seven planning phases and fourteen tasks, with practical questions, work products, and examples.
+
+---
+
 # Risk Communication Planning Reference Guide
 
 A simple, read-only reference for developing a risk communication plan. Built with React, TypeScript and Vite, and published as a static site through GitHub Pages.
